@@ -45,24 +45,24 @@ namespace af.apidemo.webapi.ApiControllers
         }
 
         [HttpGet]
-        [ResponseType(typeof(Car))]
-        public IHttpActionResult GetById(int id)
+        [ResponseType(typeof(ApiResponse<Car>))]
+        public HttpResponseMessage GetById(int id)
         {
             CloudTableClient tableClient = account.CreateCloudTableClient();
             CloudTable table = tableClient.GetTableReference("Cars");
 
             var query = new TableQuery<CarEntity>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, id.ToString()));
-
+            
             var entity = table.ExecuteQuery(query).FirstOrDefault();
             if (entity == null)
-                return NotFound();
-            
-            return Ok<Car>(new Car(entity));
+                return Request.CreateResponse<ApiResponse<Car>>(new ApiResponse<Car>(404, "NotFound"));
+
+            return Request.CreateResponse<ApiResponse<Car>>(new ApiResponse<Car>(new Car(entity)));
         }
 
         [HttpPut]
-        [ResponseType(typeof(Car))]
-        public Car Put(int id, [FromBody]Car car)
+        [ResponseType(typeof(ApiResponse<Car>))]
+        public IHttpActionResult Put(int id, [FromBody]Car car)
         {
             CloudTableClient tableClient = account.CreateCloudTableClient();
             CloudTable table = tableClient.GetTableReference("Cars");
@@ -82,13 +82,12 @@ namespace af.apidemo.webapi.ApiControllers
             
             table.Execute(updateOperation);
 
-
-            return new Car(updateEntity);
+            return Ok<ApiResponse<Car>>(new ApiResponse<Car>(new Car(updateEntity)));
         }
 
         [HttpPost]
-        [ResponseType(typeof(Car))]
-        public Car Post(Car car)
+        [ResponseType(typeof(ApiResponse<Car>))]
+        public IHttpActionResult Post(Car car)
         {
             CloudTableClient tableClient = account.CreateCloudTableClient();
             CloudTable table = tableClient.GetTableReference("Cars");
@@ -109,11 +108,11 @@ namespace af.apidemo.webapi.ApiControllers
             
             table.Execute(insertOperation);
 
-            return car;
+            return Ok<ApiResponse<Car>>(new ApiResponse<Car>(car));
         }
 
         [HttpDelete]
-        [ResponseType(typeof(bool))]
+        [ResponseType(typeof(ApiResponse<bool>))]
         public IHttpActionResult Delete(int id)
         {
             CloudTableClient tableClient = account.CreateCloudTableClient();
@@ -130,11 +129,11 @@ namespace af.apidemo.webapi.ApiControllers
                 // Execute the operation.
                 table.Execute(deleteOperation);
                 
-                return Ok(true);
+                return Ok(new ApiResponse<bool>(true));
             }
             catch (Exception ex)
             {
-                return Ok(false);
+                return Ok(new ApiResponse<bool>(100, "Could not delete car"));
             }
         }
     }
