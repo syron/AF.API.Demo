@@ -217,6 +217,9 @@
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\CarEntity.cs" />
     <Compile Include="Models\Color.cs" />
+    <Compile Include="Models\Response\ApiResponse.cs" />
+    <Compile Include="Models\Response\Error.cs" />
+    <Compile Include="Models\Response\Success.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

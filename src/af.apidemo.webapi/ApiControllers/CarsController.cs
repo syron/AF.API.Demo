@@ -1,4 +1,5 @@
 ﻿using af.apidemo.webapi.Models;
+using af.apidemo.webapi.Models.Response;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -18,7 +19,7 @@ namespace af.apidemo.webapi.ApiControllers
             new StorageCredentials("afdemo4062", "RC0CKH8jxas8de8/XI3w+WhBMWSph81umN8Q5ayPD0v9g52pT6Xp7gfRiHCZwteGjvLLMLLNlzqH4KoFdnCHgw=="), true);
 
         [HttpGet]
-        [ResponseType(typeof(List<Car>))]
+        [ResponseType(typeof(ApiResponse<List<Car>>))]
         public IHttpActionResult Get()
         {
             CloudTableClient tableClient = account.CreateCloudTableClient();
@@ -35,10 +36,12 @@ namespace af.apidemo.webapi.ApiControllers
                 token = queryResult.ContinuationToken;
             } while (token != null);
 
-            if (entities.Count == 0)
-                return Ok<List<Car>>(null);
+            ApiResponse<List<Car>> response = null;
 
-            return Ok<List<Car>>(entities.Select(c => new Car(c)).ToList());
+            if (entities.Count != 0)
+                response = new ApiResponse<List<Car>>(entities.Select(c => new Car(c)).ToList());
+
+            return Ok<ApiResponse<List<Car>>>(response);
         }
 
         [HttpGet]

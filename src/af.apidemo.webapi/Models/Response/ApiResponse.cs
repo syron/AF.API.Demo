@@ -17,11 +17,9 @@ namespace af.apidemo.webapi.Models.Response
         }
         public ApiResponse(int code, string message)
         {
-            Code = code;
-            Message = message;
+            Error = new Error(code, message);
         }
         public T Data { get; set; }
-        public int? Code { get; set; }
-        public string Message { get; set; }
+        public Error Error { get; set; }
     }
 }
