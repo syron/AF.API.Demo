@@ -7,7 +7,7 @@ Demo source code showing three different kind of API responses.
 
 Repository has 4 branches:
 
-* master: contains readme, license and gitignore only - no source code.
-* default: Contains source code for "Default WebAPI response handling"
-* jsend: Containse source code for "JSend" response standard.
-* g00gl3: Contains source code for "Google's take on API responses"
+* [master](https://github.com/syron/AF.API.Demo): contains readme, license and gitignore only - no source code.
+* [default](https://github.com/syron/AF.API.Demo/tree/default): Contains source code for "Default WebAPI response handling"
+* [jsend](https://github.com/syron/AF.API.Demo/tree/jsend): Containse source code for "JSend" response standard.
+* [g00gl3](https://github.com/syron/AF.API.Demo/tree/g00gl3): Contains source code for "Google's take on API responses"
