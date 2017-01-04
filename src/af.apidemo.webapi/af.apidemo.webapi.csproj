@@ -174,8 +174,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiControllers\CarsJsonApiController.cs" />
-    <Compile Include="ApiControllers\CarsJsendController.cs" />
     <Compile Include="ApiControllers\CarsController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
